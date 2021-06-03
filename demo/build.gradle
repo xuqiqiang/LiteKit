@@ -1,0 +1,49 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+
+    defaultConfig {
+        applicationId "com.xuqiqiang.litekit.demo"
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+        testInstrumentationRunner rootProject.ext.dependencies["androidJUnitRunner"]
+    }
+    buildTypes {
+        debug {
+            minifyEnabled true
+            shrinkResources true
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+configurations {
+    all*.exclude module: 'material'
+    all*.exclude module: 'slidingpanelayout'
+    all*.exclude module: 'swiperefreshlayout'
+    all*.exclude module: 'viewpager'
+    all*.exclude module: 'cursoradapter'
+    all*.exclude module: 'documentfile'
+    all*.exclude module: 'loader'
+
+    all*.exclude module: 'appcompat'
+    all*.exclude module: 'lifecycle-common'
+    all*.exclude module: 'lifecycle-runtime'
+    all*.exclude module: 'customview'
+    all*.exclude module: 'versionedparcelable'
+    all*.exclude module: 'core'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation rootProject.ext.dependencies["recyclerview"]
+    implementation project(path: ':litekit')
+}
