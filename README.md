@@ -14,7 +14,7 @@ allprojects {
 }
 
 dependencies {
-	implementation 'com.github.xuqiqiang:LiteKit:1.0.0'
+	implementation 'com.github.xuqiqiang:LiteKit:1.0.1'
 }
 ```
 

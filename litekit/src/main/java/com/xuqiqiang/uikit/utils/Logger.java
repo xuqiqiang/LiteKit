@@ -57,7 +57,29 @@ public class Logger {
         if (!mEnabled || ArrayUtils.isEmpty(msg)) return;
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < msg.length; i += 1) {
-            str.append(msg[i] == null ? "null" : msg[i].toString());
+            String toString = null;
+            if (msg[i] == null) {
+                toString = "null";
+            } else if (msg[i].getClass().isArray()) {
+                if (msg[i] instanceof int[]) {
+                    toString = Arrays.toString((int[]) msg[i]);
+                } else if (msg[i] instanceof float[]) {
+                    toString = Arrays.toString((float[]) msg[i]);
+                } else if (msg[i] instanceof double[]) {
+                    toString = Arrays.toString((double[]) msg[i]);
+                } else if (msg[i] instanceof byte[]) {
+                    toString = Arrays.toString((byte[]) msg[i]);
+                } else if (msg[i] instanceof char[]) {
+                    toString = Arrays.toString((char[]) msg[i]);
+                } else if (msg[i] instanceof long[]) {
+                    toString = Arrays.toString((long[]) msg[i]);
+                } else if (msg[i] instanceof Object[]) {
+                    toString = Arrays.toString((Object[]) msg[i]);
+                }
+            } else {
+                toString = msg[i].toString();
+            }
+            str.append(toString);
             if (i < msg.length - 1) {
                 str.append(", ");
             }

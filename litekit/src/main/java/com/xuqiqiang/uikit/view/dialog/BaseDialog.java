@@ -9,18 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
-
 import com.xuqiqiang.uikit.R;
 import com.xuqiqiang.uikit.utils.DisplayUtils;
-
-import java.util.ArrayList;
 
 /**
  * Created by xuqiqiang on 2016/05/17.
@@ -28,6 +21,7 @@ import java.util.ArrayList;
 public class BaseDialog extends Dialog {
 
     private static int mDefaultWidth = 260;
+    private static int mDefaultMargin;
     private static int mDefaultDialogLayout = R.layout.dialog_base;
     private View innerView;
 
@@ -43,6 +37,10 @@ public class BaseDialog extends Dialog {
         mDefaultDialogLayout = layoutId;
     }
 
+    public static void setDefaultMargin(int defaultMargin) {
+        mDefaultMargin = defaultMargin;
+    }
+
     public static void setDefaultWidth(int width) {
         mDefaultWidth = width;
     }
@@ -51,43 +49,47 @@ public class BaseDialog extends Dialog {
         return show(context, title, message, null);
     }
 
-    public static BaseDialog show(Context context, String title, String message, final OnDialogListener onPositive) {
+    public static BaseDialog show(Context context, String title, String message,
+        final OnDialogListener onPositive) {
         BaseDialog dialog = new BaseDialog.Builder(context)
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (onPositive == null) dialog.cancel();
-                        else if (onPositive.onClick(dialog)) dialog.cancel();
-                    }
-                }).create();
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (onPositive == null) {
+                        dialog.cancel();
+                    } else if (onPositive.onClick(dialog)) dialog.cancel();
+                }
+            }).create();
         dialog.show();
         return dialog;
     }
 
     public static BaseDialog show(Context context, String title, String message,
-                                  final OnDialogListener onPositive, final OnDialogListener onNegative) {
+        final OnDialogListener onPositive, final OnDialogListener onNegative) {
         BaseDialog dialog = new BaseDialog.Builder(context)
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (onPositive == null) dialog.cancel();
-                        else if (onPositive.onClick(dialog)) dialog.cancel();
-                    }
-                })
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (onPositive == null) {
+                        dialog.cancel();
+                    } else if (onPositive.onClick(dialog)) dialog.cancel();
+                }
+            })
+            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (onNegative == null) dialog.cancel();
-                        else if (onNegative.onClick(dialog)) dialog.cancel();
-                    }
-                }).create();
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (onNegative == null) {
+                        dialog.cancel();
+                    } else if (onNegative.onClick(dialog)) dialog.cancel();
+                }
+            }).create();
         dialog.show();
         return dialog;
     }
@@ -129,9 +131,9 @@ public class BaseDialog extends Dialog {
         private int width;
 
         private OnClickListener positiveButtonClickListener,
-                negativeButtonClickListener,
-                extraButtonClickListener,
-                onKeyBackListener;
+            negativeButtonClickListener,
+            extraButtonClickListener,
+            onKeyBackListener;
 
         public Builder(Context context) {
             this.context = context;
@@ -187,8 +189,8 @@ public class BaseDialog extends Dialog {
         }
 
         /**
-         * Set a custom content view for the Dialog. If a message is set, the
-         * contentView is not added to the Dialog...
+         * Set a custom content view for the Dialog. If a message is set, the contentView is not
+         * added to the Dialog...
          *
          * @param view
          * @return
@@ -199,8 +201,8 @@ public class BaseDialog extends Dialog {
         }
 
         /**
-         * Set a custom content view for the Dialog. If a message is set, the
-         * contentView is not added to the Dialog...
+         * Set a custom content view for the Dialog. If a message is set, the contentView is not
+         * added to the Dialog...
          *
          * @param layoutId
          * @return
@@ -224,12 +226,12 @@ public class BaseDialog extends Dialog {
          * @return
          */
         public Builder setPositiveButton(int positiveButtonText,
-                                         OnClickListener listener) {
+            OnClickListener listener) {
             this.positiveButtonText = (String) context
-                    .getText(positiveButtonText);
-            if (listener != null)
+                .getText(positiveButtonText);
+            if (listener != null) {
                 this.positiveButtonClickListener = listener;
-            else {
+            } else {
                 this.positiveButtonClickListener = new DialogInterface.OnClickListener() {
 
                     @Override
@@ -249,11 +251,11 @@ public class BaseDialog extends Dialog {
          * @return
          */
         public Builder setPositiveButton(String positiveButtonText,
-                                         OnClickListener listener) {
+            OnClickListener listener) {
             this.positiveButtonText = positiveButtonText;
-            if (listener != null)
+            if (listener != null) {
                 this.positiveButtonClickListener = listener;
-            else {
+            } else {
                 this.positiveButtonClickListener = new DialogInterface.OnClickListener() {
 
                     @Override
@@ -266,15 +268,15 @@ public class BaseDialog extends Dialog {
         }
 
         public Builder setPositiveButton(int positiveButtonText,
-                                         int positiveButtonTextColor,
-                                         OnClickListener listener) {
+            int positiveButtonTextColor,
+            OnClickListener listener) {
             this.positiveButtonTextColor = positiveButtonTextColor;
             return setPositiveButton(positiveButtonText, listener);
         }
 
         public Builder setPositiveButton(String positiveButtonText,
-                                         int positiveButtonTextColor,
-                                         OnClickListener listener) {
+            int positiveButtonTextColor,
+            OnClickListener listener) {
             this.positiveButtonTextColor = positiveButtonTextColor;
             return setPositiveButton(positiveButtonText, listener);
         }
@@ -287,12 +289,12 @@ public class BaseDialog extends Dialog {
          * @return
          */
         public Builder setNegativeButton(int negativeButtonText,
-                                         OnClickListener listener) {
+            OnClickListener listener) {
             this.negativeButtonText = (String) context
-                    .getText(negativeButtonText);
-            if (listener != null)
+                .getText(negativeButtonText);
+            if (listener != null) {
                 this.negativeButtonClickListener = listener;
-            else {
+            } else {
                 this.negativeButtonClickListener = new DialogInterface.OnClickListener() {
 
                     @Override
@@ -312,11 +314,11 @@ public class BaseDialog extends Dialog {
          * @return
          */
         public Builder setNegativeButton(String negativeButtonText,
-                                         OnClickListener listener) {
+            OnClickListener listener) {
             this.negativeButtonText = negativeButtonText;
-            if (listener != null)
+            if (listener != null) {
                 this.negativeButtonClickListener = listener;
-            else {
+            } else {
                 this.negativeButtonClickListener = new DialogInterface.OnClickListener() {
 
                     @Override
@@ -329,26 +331,26 @@ public class BaseDialog extends Dialog {
         }
 
         public Builder setNegativeButton(int negativeButtonText,
-                                         int negativeButtonTextColor,
-                                         OnClickListener listener) {
+            int negativeButtonTextColor,
+            OnClickListener listener) {
             this.negativeButtonTextColor = negativeButtonTextColor;
             return setNegativeButton(negativeButtonText, listener);
         }
 
         public Builder setNegativeButton(String negativeButtonText,
-                                         int negativeButtonTextColor,
-                                         OnClickListener listener) {
+            int negativeButtonTextColor,
+            OnClickListener listener) {
             this.negativeButtonTextColor = negativeButtonTextColor;
             return setNegativeButton(negativeButtonText, listener);
         }
 
         public Builder setExtraButton(int extraButtonText,
-                                      DialogInterface.OnClickListener listener) {
+            DialogInterface.OnClickListener listener) {
             this.extraButtonText = (String) context.getText(extraButtonText);
 
-            if (listener != null)
+            if (listener != null) {
                 this.extraButtonClickListener = listener;
-            else {
+            } else {
                 this.extraButtonClickListener = new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -359,11 +361,11 @@ public class BaseDialog extends Dialog {
         }
 
         public Builder setExtraButton(String extraButtonText,
-                                      DialogInterface.OnClickListener listener) {
+            DialogInterface.OnClickListener listener) {
             this.extraButtonText = extraButtonText;
-            if (listener != null)
+            if (listener != null) {
                 this.extraButtonClickListener = listener;
-            else {
+            } else {
                 this.extraButtonClickListener = new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -374,13 +376,13 @@ public class BaseDialog extends Dialog {
         }
 
         public Builder setOnKeyBackListener(
-                OnClickListener listener) {
+            OnClickListener listener) {
             this.onKeyBackListener = listener;
             return this;
         }
 
         public Builder setWidth(
-                int width) {
+            int width) {
             this.width = width;
             return this;
         }
@@ -412,7 +414,7 @@ public class BaseDialog extends Dialog {
             LayoutInflater inflater = LayoutInflater.from(context);
             // instantiate the dialog with the custom Theme
             final BaseDialog dialog = new BaseDialog(context,
-                    R.style.CustomDialog);
+                R.style.CustomDialog);
             dialog.setCancelable(cancelable);
             dialog.setCanceledOnTouchOutside(false);
 
@@ -431,19 +433,21 @@ public class BaseDialog extends Dialog {
                 flContainer.removeAllViews();
                 if (contentView != null) {
                     flContainer.addView(contentView, new LayoutParams(
-                            LayoutParams.MATCH_PARENT,
-                            LayoutParams.WRAP_CONTENT));
+                        LayoutParams.MATCH_PARENT,
+                        LayoutParams.WRAP_CONTENT));
                 } else {
                     ViewGroup viewGroup = (ViewGroup) inflater.inflate(contentLayout, flContainer);
-                    contentView = viewGroup.getChildAt(0);//inflater.inflate(contentLayout, flContainer);
-//                    contentView = inflater.inflate(contentLayout, flContainer);
-                    if (onContentViewListener != null)
+                    contentView =
+                        viewGroup.getChildAt(0);//inflater.inflate(contentLayout, flContainer);
+                    //                    contentView = inflater.inflate(contentLayout, flContainer);
+                    if (onContentViewListener != null) {
                         onContentViewListener.onCreateView(contentView);
+                    }
                 }
                 dialog.setInnerView(contentView);
             } else {
                 TextView tvMessage = layout.findViewById(R.id.tv_message);
-//                tvMessage.setMovementMethod(ScrollingMovementMethod.getInstance());
+                //                tvMessage.setMovementMethod(ScrollingMovementMethod.getInstance());
                 tvMessage.setText(message);
             }
 
@@ -455,15 +459,16 @@ public class BaseDialog extends Dialog {
                 if (tvOk == null && btOk instanceof TextView) tvOk = (TextView) btOk;
                 if (tvOk != null) {
                     tvOk.setText(positiveButtonText);
-                    if (positiveButtonTextColor != 0)
+                    if (positiveButtonTextColor != 0) {
                         tvOk.setTextColor(positiveButtonTextColor);
+                    }
                 }
                 if (positiveButtonClickListener != null) {
                     btOk.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             positiveButtonClickListener.onClick(dialog,
-                                    DialogInterface.BUTTON_POSITIVE);
+                                DialogInterface.BUTTON_POSITIVE);
                         }
                     });
                 }
@@ -478,19 +483,21 @@ public class BaseDialog extends Dialog {
             if (negativeButtonText != null) {
                 btCancel.setVisibility(View.VISIBLE);
                 TextView tvCancel = layout.findViewById(R.id.tv_cancel);
-                if (tvCancel == null && btCancel instanceof TextView)
+                if (tvCancel == null && btCancel instanceof TextView) {
                     tvCancel = (TextView) btCancel;
+                }
                 if (tvCancel != null) {
                     tvCancel.setText(negativeButtonText);
-                    if (negativeButtonTextColor != 0)
+                    if (negativeButtonTextColor != 0) {
                         tvCancel.setTextColor(negativeButtonTextColor);
+                    }
                 }
                 if (negativeButtonClickListener != null) {
                     btCancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             negativeButtonClickListener.onClick(dialog,
-                                    DialogInterface.BUTTON_NEGATIVE);
+                                DialogInterface.BUTTON_NEGATIVE);
                         }
                     });
                 }
@@ -510,15 +517,15 @@ public class BaseDialog extends Dialog {
                 if (tvExtra == null && btExtra instanceof TextView) tvExtra = (TextView) btExtra;
                 if (tvExtra != null) {
                     tvExtra.setText(extraButtonText);
-//                    if (negativeButtonTextColor != 0)
-//                        tvCancel.setTextColor(negativeButtonTextColor);
+                    //                    if (negativeButtonTextColor != 0)
+                    //                        tvCancel.setTextColor(negativeButtonTextColor);
                 }
                 if (extraButtonClickListener != null) {
                     btExtra.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             extraButtonClickListener.onClick(dialog,
-                                    DialogInterface.BUTTON_NEUTRAL);
+                                DialogInterface.BUTTON_NEUTRAL);
                         }
                     });
                 }
@@ -529,7 +536,7 @@ public class BaseDialog extends Dialog {
                     if (keyCode == KeyEvent.KEYCODE_BACK) {
                         if (onKeyBackListener != null) {
                             onKeyBackListener.onClick(dialog,
-                                    DialogInterface.BUTTON_NEGATIVE);
+                                DialogInterface.BUTTON_NEGATIVE);
                             return true;
                         }
                     }
@@ -537,10 +544,20 @@ public class BaseDialog extends Dialog {
                 }
             });
 
-            ViewGroup.LayoutParams p = new ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams lp;
+            if (mDefaultMargin > 0) {
+                ViewGroup.MarginLayoutParams mlp = new ViewGroup.MarginLayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT);
+                mlp.leftMargin = mDefaultMargin;
+                mlp.rightMargin = mDefaultMargin;
+                lp = mlp;
+            } else {
+                lp = new ViewGroup.LayoutParams(
                     width == 0 ? (int) DisplayUtils.dip2px(context, mDefaultWidth) : width,
                     LayoutParams.WRAP_CONTENT);
-            dialog.setContentView(layout, p);
+            }
+            dialog.setContentView(layout, lp);
             return dialog;
         }
     }

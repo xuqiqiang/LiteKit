@@ -14,17 +14,11 @@ import java.io.FileOutputStream;
  * Created by xuqiqiang on 2016/05/17.
  */
 public class Cache {
-    private static final String TAG = Cache.class.getSimpleName();
-    public static String rootName;
     public static String spName;
     @SuppressLint("StaticFieldLeak")
     private static Context context;
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
-    private FileInputStream fis;
-    private DataInputStream dis;
-    private FileOutputStream fos;
-    private DataOutputStream dos;
 
     private Cache() {
     }
