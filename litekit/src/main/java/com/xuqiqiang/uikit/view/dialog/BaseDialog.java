@@ -22,7 +22,7 @@ public class BaseDialog extends Dialog {
 
     private static int mDefaultWidth = 260;
     private static int mDefaultMargin;
-    private static int mDefaultDialogLayout = R.layout.dialog_base;
+    private static int mDefaultDialogLayout = R.layout.custom_dialog;
     private View innerView;
 
     public BaseDialog(Context context, int theme) {

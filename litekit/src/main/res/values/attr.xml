@@ -60,28 +60,7 @@
         <attr name="mhv_HeightRatio" format="reference|float" />
         <attr name="mhv_HeightDimen" format="reference|dimension" />
     </declare-styleable>
-    <declare-styleable name="PagerIndicator">
-        <attr name="pi_dot_dark" format="reference" />
-        <attr name="pi_dot_light" format="reference" />
-        <attr name="pi_dot_margin" format="reference|dimension" />
-    </declare-styleable>
 
-    <!--    <attr name="colorMain" format="color" />-->
-    <!--    <attr name="colorDark" format="color" />-->
-    <!-- 自定义Toast的背景颜色 -->
-<!--    <attr name="colorToast" format="color" />-->
-    <!-- 不可用的控件背景颜色 -->
-<!--    <attr name="colorDisabled" format="color" />-->
-    <!--    <attr name="colorTextLight" format="color" />-->
-    <!--    <attr name="colorTitle" format="color" />-->
-    <!--    <attr name="colorTitleText" format="color" />-->
-    <!--    <attr name="colorTitleRipple" format="color" />-->
-    <!-- 分割线颜色 -->
-<!--    <attr name="colorDivider" format="color" />-->
-    <!--    <attr name="colorRipple" format="color" />-->
-    <!--    <attr name="colorRippleDark" format="color" />-->
-    <!--    <attr name="statusBarPaddingTop" format="boolean" />-->
-    <!-- 与android:windowLightStatusBar相反，改变状态栏文字颜色，true白色，false黑色 -->
     <attr name="statusBarDark" format="boolean" />
     <!-- 与android:fitsSystemWindows相反，沉浸式状态栏 -->
     <attr name="statusBarImmersion" format="boolean" />
@@ -96,15 +75,9 @@
     <!-- 默认菜单图标 -->
     <attr name="icMenu" format="reference" />
 
-
-
-
     <attr name="colorPrimary" format="color" />
     <attr name="colorPrimaryDark" format="color" />
     <attr name="colorAccent" format="color" />
     <attr name="colorControlHighlight" format="color" />
-
     <attr name="selectableItemBackground" format="reference" />
-<!--    <attr name="colorPrimary" format="color" />-->
-<!--    <attr name="colorPrimary" format="color" />-->
 </resources>

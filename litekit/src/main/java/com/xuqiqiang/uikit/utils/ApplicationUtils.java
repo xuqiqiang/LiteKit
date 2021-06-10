@@ -14,7 +14,6 @@ import android.net.NetworkInfo;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.Log;
 
 /**
  * Created by xuqiqiang on 2016/05/17.
@@ -29,7 +28,7 @@ public class ApplicationUtils {
     public static int getVersionCode(Context context, String packageName) {
         try {
             PackageInfo pi = context.getPackageManager().getPackageInfo(
-                    packageName, 0);
+                packageName, 0);
             if (pi != null) return pi.versionCode;
         } catch (NameNotFoundException e) {
             e.printStackTrace();
@@ -38,12 +37,12 @@ public class ApplicationUtils {
     }
 
     public static boolean isAppInstalled(Context context, String packageName,
-                                         int version) {
+        int version) {
         PackageInfo packageInfo = null;
         try {
             packageInfo = context.getPackageManager().getPackageInfo(
-                    packageName, 0);
-            Log.d("ApplicationUtils", packageName + " versionCode:" + packageInfo.versionCode);
+                packageName, 0);
+            Logger.d("isAppInstalled", packageName, packageInfo.versionCode);
         } catch (NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -62,7 +61,7 @@ public class ApplicationUtils {
         try {
             PackageInfo packageInfo = pm.getPackageInfo(context.getPackageName(), 0);
             //返回版本号
-//            Cache.writeString("versionName",packageInfo.versionName);
+            //            Cache.writeString("versionName",packageInfo.versionName);
             return packageInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -74,7 +73,7 @@ public class ApplicationUtils {
     public static String getApplicationMetaData(Context context, String key) {
         try {
             ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(
-                    context.getPackageName(), PackageManager.GET_META_DATA);
+                context.getPackageName(), PackageManager.GET_META_DATA);
             return appInfo.metaData.getString(key);
         } catch (NameNotFoundException e) {
             e.printStackTrace();
@@ -87,9 +86,10 @@ public class ApplicationUtils {
     public static String getActivityMetaData(Activity activity, String key) {
         try {
             ActivityInfo appInfo = activity.getPackageManager().getActivityInfo(
-                    activity.getComponentName(), PackageManager.GET_META_DATA);
-            if (appInfo != null && appInfo.metaData != null)
+                activity.getComponentName(), PackageManager.GET_META_DATA);
+            if (appInfo != null && appInfo.metaData != null) {
                 return appInfo.metaData.getString(key);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,9 +99,10 @@ public class ApplicationUtils {
     public static int getActivityMetaDataInt(Activity activity, String key) {
         try {
             ActivityInfo appInfo = activity.getPackageManager().getActivityInfo(
-                    activity.getComponentName(), PackageManager.GET_META_DATA);
-            if (appInfo != null && appInfo.metaData != null)
+                activity.getComponentName(), PackageManager.GET_META_DATA);
+            if (appInfo != null && appInfo.metaData != null) {
                 return appInfo.metaData.getInt(key);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,7 +118,6 @@ public class ApplicationUtils {
         return android.os.Build.MODEL;
     }
 
-
     public static String getDeviceBrand() {
         return android.os.Build.BRAND;
     }
@@ -126,12 +126,14 @@ public class ApplicationUtils {
      * 获取手机IMEI号((International Mobile Equipment Identity,国际移动身份识别码)
      */
     public static String getIMEI(Context context) {
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
-        @SuppressLint({"MissingPermission", "HardwareIds"}) String deviceId = telephonyManager.getDeviceId();
+        TelephonyManager telephonyManager =
+            (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
+        @SuppressLint({"MissingPermission", "HardwareIds"}) String deviceId =
+            telephonyManager.getDeviceId();
         //android 10以上已经获取不了imei了 用 android id代替
         if (TextUtils.isEmpty(deviceId)) {
             deviceId = Settings.System.getString(
-                    context.getContentResolver(), Settings.Secure.ANDROID_ID);
+                context.getContentResolver(), Settings.Secure.ANDROID_ID);
         }
         return deviceId;
     }
@@ -148,7 +150,7 @@ public class ApplicationUtils {
             if (packageManager != null) {
                 //注意此处为ApplicationInfo 而不是 ActivityInfo,因为友盟设置的meta-data是在application标签中，而不是某activity标签中，所以用ApplicationInfo
                 ApplicationInfo applicationInfo = packageManager.
-                        getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+                    getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
                 if (applicationInfo != null) {
                     if (applicationInfo.metaData != null) {
                         channelName = String.valueOf(applicationInfo.metaData.get("UMENG_CHANNEL"));
@@ -170,7 +172,7 @@ public class ApplicationUtils {
     public static int getAPNType(Context context) {
         int netType = 0;
         ConnectivityManager connMgr = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+            .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
             return netType;
@@ -181,9 +183,9 @@ public class ApplicationUtils {
         } else if (nType == ConnectivityManager.TYPE_MOBILE) {
             int nSubType = networkInfo.getSubtype();
             TelephonyManager mTelephony = (TelephonyManager) context
-                    .getSystemService(Context.TELEPHONY_SERVICE);
+                .getSystemService(Context.TELEPHONY_SERVICE);
             if (nSubType == TelephonyManager.NETWORK_TYPE_UMTS
-                    && !mTelephony.isNetworkRoaming()) {
+                && !mTelephony.isNetworkRoaming()) {
                 netType = 2;// 3G
             } else {
                 netType = 3;// 2G
@@ -193,7 +195,8 @@ public class ApplicationUtils {
     }
 
     public static void startApp(Context context) {
-        Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+        Intent intent =
+            context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
         if (intent != null) {
             Intent mainIntent = Intent.makeRestartActivityTask(intent.getComponent());
             context.startActivity(mainIntent);

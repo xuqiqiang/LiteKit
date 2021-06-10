@@ -7,32 +7,25 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import androidx.annotation.LayoutRes;
-
 import com.xuqiqiang.uikit.R;
-
 import java.lang.ref.SoftReference;
 
 public class CustomProgressDialog extends Dialog {
 
-    private static int mDefaultLayout = R.layout.dialog_custom_progress;
+    private static int mDefaultLayout = R.layout.custom_dialog_progress;
     private volatile static SoftReference<CustomProgressDialog> rDialog;
-    // for test
-    private static int progress;
     private final ProgressBar pbLoading;
     private CharSequence mText;
 
     private CustomProgressDialog(Context context, CharSequence message) {
-        super(context, R.style.CustomProgressDialog);
+        super(context, R.style.CustomDialog);
         @SuppressLint("InflateParams")
         View view = LayoutInflater.from(context).inflate(mDefaultLayout, null);
         if (!TextUtils.isEmpty(message)) {
@@ -42,7 +35,8 @@ public class CustomProgressDialog extends Dialog {
             tvMessage.setText(message);
         }
         pbLoading = view.findViewById(R.id.pb_loading);
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT);
         addContentView(view, lp);
     }
 
@@ -74,8 +68,9 @@ public class CustomProgressDialog extends Dialog {
             }
         }
 
-        if (!(context instanceof Activity) || ((Activity) context).isFinishing())
+        if (!(context instanceof Activity) || ((Activity) context).isFinishing()) {
             return;
+        }
 
         sDialog = new CustomProgressDialog(context, message);
         sDialog.setCancelable(cancelable);

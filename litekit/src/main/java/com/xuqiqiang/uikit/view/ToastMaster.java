@@ -28,7 +28,7 @@ import java.lang.reflect.Field;
 public class ToastMaster {
 
     private static WeakReference<Toast> sToast;
-    private static int mDefaultLayout = R.layout.toast;
+    private static int mDefaultLayout = R.layout.custom_toast;
 
     private ToastMaster() {
     }

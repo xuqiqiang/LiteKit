@@ -22,25 +22,4 @@
     <color name="lightGrey">#888</color>
     <color name="dark">#333</color>
     <color name="skyBlue">#419DE4</color>
-
-    <color name="custom_dialog_danger">#ffd9534f</color>
-    <color name="custom_dialog_danger_edge">#ffd43f3a</color>
-    <color name="custom_dialog_danger_pressed">#ffd2322d</color>
-    <color name="custom_dialog_danger_pressed_edge">#ffac2925</color>
-    <color name="custom_dialog_danger_disabled">#a5d9534f</color>
-    <color name="custom_dialog_danger_disabled_edge">#a5d43f3a</color>
-
-    <color name="custom_dialog_info">#ff5bc0de</color>
-    <color name="custom_dialog_info_edge">#ff46b8da</color>
-    <color name="custom_dialog_info_pressed">#ff39b3d7</color>
-    <color name="custom_dialog_info_pressed_edge">#ff269abc</color>
-    <color name="custom_dialog_info_disabled">#a55bc0de</color>
-    <color name="custom_dialog_info_disabled_edge">#a546b8da</color>
-
-    <color name="custom_dialog_extra">#ff14d870</color>
-    <color name="custom_dialog_extra_edge">#ff20d475</color>
-    <color name="custom_dialog_extra_pressed">#ff59d7b3</color>
-    <color name="custom_dialog_extra_pressed_edge">#ff26bc9a</color>
-    <color name="custom_dialog_extra_disabled">#a57bdec0</color>
-    <color name="custom_dialog_extra_disabled_edge">#a546dab8</color>
 </resources>
