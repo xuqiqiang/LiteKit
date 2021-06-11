@@ -1,6 +1,7 @@
 package com.xuqiqiang.uikit.view.adapter;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,29 +20,37 @@ import java.util.List;
 public abstract class AnimatorAdapter<E>
     extends RecyclerView.Adapter<AnimatorAdapter.ViewHolder<E>> {
 
-    private static final int ANIM_ADD_DURING = 400;
-    private static final int ANIM_MOVE_DURING = 400;
+    private static final long ANIM_ADD_DURING = 400;
+    private static final long ANIM_MOVE_DURING = 400;
     private final RecyclerView mRecyclerView;
     @NonNull
     protected final List<E> mList = new ArrayList<>();
     private OnItemClickListener<E> mOnItemClickListener;
     private long mAddTime;
-    private final Handler mMainHandler = new Handler();
+    private final Handler mMainHandler = new Handler(Looper.getMainLooper());
 
     public AnimatorAdapter(RecyclerView recyclerView) {
         mRecyclerView = recyclerView;
         mRecyclerView.setAdapter(this);
         RecyclerView.ItemAnimator itemAnimator = mRecyclerView.getItemAnimator();
         if (itemAnimator != null) {
-            itemAnimator.setAddDuration(ANIM_ADD_DURING);
-            itemAnimator.setChangeDuration(ANIM_MOVE_DURING);
-            itemAnimator.setMoveDuration(ANIM_MOVE_DURING);
-            itemAnimator.setRemoveDuration(ANIM_ADD_DURING);
+            itemAnimator.setAddDuration(animAddDuring());
+            itemAnimator.setChangeDuration(animMoveDuring());
+            itemAnimator.setMoveDuration(animMoveDuring());
+            itemAnimator.setRemoveDuration(animAddDuring());
         }
     }
 
     public void setOnItemClickListener(OnItemClickListener<E> listener) {
         this.mOnItemClickListener = listener;
+    }
+
+    protected long animAddDuring() {
+        return ANIM_ADD_DURING;
+    }
+
+    protected long animMoveDuring() {
+        return ANIM_MOVE_DURING;
     }
 
     @NonNull
@@ -88,8 +97,8 @@ public abstract class AnimatorAdapter<E>
 
     public void addItem(final int i, final E e) {
         long now = System.currentTimeMillis();
-        if (now - mAddTime < ANIM_ADD_DURING) {
-            mAddTime += ANIM_ADD_DURING;
+        if (now - mAddTime < animAddDuring()) {
+            mAddTime += animAddDuring();
             mMainHandler.postDelayed(new Runnable() {
                 @Override public void run() {
                     _addItem(i, e);
