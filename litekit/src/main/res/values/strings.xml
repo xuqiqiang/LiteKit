@@ -9,4 +9,5 @@
     <string name="send">Send</string>
     <string name="prompt">Tips</string>
     <string name="unknown_error">Unknown error</string>
+    <string name="feedback_handle_crash">Sorry, the program is going to quit due to some exception. We will fix it soon.</string>
 </resources>

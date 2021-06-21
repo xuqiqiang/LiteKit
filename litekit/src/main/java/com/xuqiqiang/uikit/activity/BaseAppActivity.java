@@ -14,19 +14,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.DrawableRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.xuqiqiang.uikit.R;
 import com.xuqiqiang.uikit.utils.ApplicationUtils;
 import com.xuqiqiang.uikit.utils.ArrayUtils;
 import com.xuqiqiang.uikit.utils.Logger;
 import com.xuqiqiang.uikit.view.CustomProgressDialog;
 import com.xuqiqiang.uikit.view.ToastMaster;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,11 +35,9 @@ import static com.xuqiqiang.uikit.utils.Utils.mMainHandler;
 public class BaseAppActivity extends BaseThemeActivity {
     public static final int RESULT_UNKNOWN_ERROR = -99;
     private static final String TAG = "BaseAppActivity";
-    protected static boolean isAppRunning;
     private final List<Runnable> mRunnablesAfterResume = new ArrayList<>();
     protected View mBtnTitleBack;
     protected TextView mTitleText;
-    private boolean isMainActivity;
     @LayoutRes
     private int mLayoutResID;
     private boolean isRunning;
@@ -72,8 +67,9 @@ public class BaseAppActivity extends BaseThemeActivity {
                 }
 
                 int contentViewId = initContentView(savedInstanceState);
-                if (contentViewId != 0) setView(contentViewId);
-                else {
+                if (contentViewId != 0) {
+                    setView(contentViewId);
+                } else {
                     View view = initContentViewInstance(savedInstanceState);
                     if (view != null) setView(view);
                 }
@@ -103,15 +99,14 @@ public class BaseAppActivity extends BaseThemeActivity {
             mMainHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (isRunning)
+                    if (isRunning) {
                         initData(savedInstanceState);
+                    }
                 }
             }, lazy);
         } else {
             initData(savedInstanceState);
         }
-        isMainActivity = Intent.ACTION_MAIN.equals(getIntent().getAction());
-        if (isMainActivity) isAppRunning = true;
     }
 
     public void initData(@Nullable Bundle savedInstanceState) {
@@ -151,9 +146,9 @@ public class BaseAppActivity extends BaseThemeActivity {
         FrameLayout flContent = findViewById(R.id.fl_content);
         flContent.removeAllViews();
         flContent.addView(view, new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                fillContent() ? LinearLayout.LayoutParams.MATCH_PARENT :
-                        ViewGroup.LayoutParams.WRAP_CONTENT));
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            fillContent() ? LinearLayout.LayoutParams.MATCH_PARENT :
+                ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
     protected boolean fillContent() {
@@ -185,10 +180,11 @@ public class BaseAppActivity extends BaseThemeActivity {
     }
 
     public void postOnResume(Runnable r) {
-        if (isPaused)
+        if (isPaused) {
             mRunnablesAfterResume.add(r);
-        else
+        } else {
             r.run();
+        }
     }
 
     @Override
@@ -256,7 +252,8 @@ public class BaseAppActivity extends BaseThemeActivity {
         setTitleMenuText(name, 0, 0, listener);
     }
 
-    protected void setTitleMenuText(String name, float size, int color, View.OnClickListener listener) {
+    protected void setTitleMenuText(String name, float size, int color,
+        View.OnClickListener listener) {
         ViewGroup btnTitleOption = findViewById(R.id.btn_title_menu_text);
         btnTitleOption.setVisibility(View.VISIBLE);
         TextView tvOption = findViewById(R.id.tv_menu);
@@ -281,13 +278,15 @@ public class BaseAppActivity extends BaseThemeActivity {
     @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
-        if (mTitleText != null)
+        if (mTitleText != null) {
             mTitleText.setText(title);
+        }
     }
 
     public void setTitleLength(int length) {
-        if (mTitleText != null)
+        if (mTitleText != null) {
             mTitleText.setMaxEms(length);
+        }
     }
 
     protected void setOnTitleTextClickListener(View.OnClickListener listener) {
@@ -336,12 +335,6 @@ public class BaseAppActivity extends BaseThemeActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (isMainActivity) isAppRunning = false;
-        else if (!isAppRunning && !isExported()) ApplicationUtils.startApp(getApplicationContext());
-    }
-
-    protected boolean isExported() {
-        return false;
     }
 
     public Activity getActivity() {

@@ -17,6 +17,9 @@ import com.xuqiqiang.uikit.view.xrecyclerview.XRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by xuqiqiang on 2021/06/10.
+ */
 public abstract class AnimatorAdapter<E>
     extends RecyclerView.Adapter<AnimatorAdapter.ViewHolder<E>> {
 
@@ -67,8 +70,9 @@ public abstract class AnimatorAdapter<E>
 
     @Override
     public void onBindViewHolder(@NonNull AnimatorAdapter.ViewHolder<E> holder, int position) {
-        convert(holder, position, mList.get(position));
-        holder.itemView.setTag(position);
+        E e = mList.get(position);
+        convert(holder, position, e);
+        holder.itemView.setTag(e);
     }
 
     /**
@@ -82,9 +86,7 @@ public abstract class AnimatorAdapter<E>
 
     @Override
     public int getItemCount() {
-        synchronized (mList) {
-            return mList.size();
-        }
+        return mList.size();
     }
 
     public void setItems(List<E> list) {
@@ -97,8 +99,9 @@ public abstract class AnimatorAdapter<E>
 
     public void addItem(final int i, final E e) {
         long now = System.currentTimeMillis();
-        if (now - mAddTime < animAddDuring()) {
-            mAddTime += animAddDuring();
+        long during = animAddDuring() + 30;
+        if (now - mAddTime < during) {
+            mAddTime += during;
             mMainHandler.postDelayed(new Runnable() {
                 @Override public void run() {
                     _addItem(i, e);
@@ -115,9 +118,11 @@ public abstract class AnimatorAdapter<E>
     }
 
     private void _addItem(int i, E e) {
+        if (i < 0) i = 0;
+        if (i > mList.size()) i = mList.size();
         mList.add(i, e);
         if (mRecyclerView instanceof XRecyclerView) {
-            ((XRecyclerView) mRecyclerView).notifyItemInserted(mList, i);
+            ((XRecyclerView) mRecyclerView).notifyItemInserted(i);
         } else {
             notifyItemInserted(i);
         }
@@ -145,18 +150,22 @@ public abstract class AnimatorAdapter<E>
             });
         }
 
+        @SuppressWarnings("unchecked")
         protected void onItemClick() {
             int position = getItemPosition();
             if (adapter.mOnItemClickListener != null) {
-                adapter.mOnItemClickListener.onItemClick(adapter.mList.get(position), position);
+                E e = (E) itemView.getTag();
+                if (e == null) e = adapter.mList.get(position);
+                adapter.mOnItemClickListener.onItemClick(e, position);
             }
         }
 
         public int getItemPosition() {
-            int position = (Integer) itemView.getTag();
-            if (position >= 0) return position;
-            return adapter.mRecyclerView instanceof XRecyclerView ?
-                getAdapterPosition() - 1 : getAdapterPosition();
+            int position = getAdapterPosition();
+            if (adapter.mRecyclerView instanceof XRecyclerView) position -= 1;
+            if (position < 0) position = 0;
+            if (position >= adapter.getItemCount()) position = adapter.getItemCount() - 1;
+            return position;
         }
 
         @SuppressWarnings("unchecked")

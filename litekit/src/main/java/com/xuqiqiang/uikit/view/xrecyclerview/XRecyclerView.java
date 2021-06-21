@@ -310,7 +310,15 @@ public class XRecyclerView extends RecyclerView {
         mWrapAdapter.adapter.notifyItemRemoved(adjPos);
         mWrapAdapter.adapter.notifyItemRangeChanged(headerSize, listData.size(),new Object());
     }
-    
+
+    public<T> void notifyItemInserted(int position) {
+        if(mWrapAdapter.adapter == null)
+            return;
+        int headerSize = getHeaders_includingRefreshCount();
+        int adjPos = position + headerSize;
+        mWrapAdapter.adapter.notifyItemInserted(adjPos);
+    }
+
     public<T> void notifyItemInserted(List<T> listData,int position) {
         if(mWrapAdapter.adapter == null)
             return;

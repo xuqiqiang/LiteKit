@@ -10,4 +10,5 @@
     <string name="send">发送</string>
     <string name="prompt">提示</string>
     <string name="unknown_error">未知错误</string>
+    <string name="feedback_handle_crash">很抱歉，程序出现异常即将退出，我们正在收集日志，并在下个版本中修复</string>
 </resources>
